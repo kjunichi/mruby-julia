@@ -5,7 +5,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
   if RUBY_PLATFORM =~ /darwin/i
     juliaPath = `which julia`
     if(juliaPath.length>0)
-      juliaPath=Pathname(juliaPath).parent.to_s
+      juliaPath=Pathname(juliaPath).parent.parent.to_s
       juliaConfig = juliaPath+"/share/julia/julia-config.jl"
     else
       #juliaConfit = "/Applications/Julia-0.4.5.app/Contents/Resources/julia/share/julia/julia-config.jl"
@@ -15,9 +15,10 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     spec.cc.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
   else
-    juliaPath=Pathname(`which julia`).parent.to_s
+    juliaPath=Pathname(`which julia`).parent.parent.to_s
     juliaConfig = juliaPath+"/share/julia/julia-config.jl"
     spec.cc.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
+    spec.linker.libraries << 'julia'
   end
 end
