@@ -1,0 +1,6 @@
+name: mruby-julia
+description: Julia class
+author: Junichi Kajiwara
+website: https://github.com/kjunichi/mruby-julia
+protocol: git
+repository: https://github.com/kjunichi/mruby-julia.git
