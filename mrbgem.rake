@@ -2,10 +2,22 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
   spec.license = 'MIT'
   spec.authors = 'Junichi Kajiwara'
 
-  spec.cc.flags << `/Applications/Julia-0.4.5.app/Contents/Resources/julia/share/julia/julia-config.jl --cflags`.chomp
-  #spec.linker.library_paths << "/Applications/Julia-0.4.5.app/Contents/Resources/julia/lib/julia"
-  #spec.linker.libraries << "julia"
-  #spec.linker.flags_before_libraries << `/Applications/Julia-0.4.5.app/Contents/Resources/julia/share/julia/julia-config.jl --ldflags --ldlibs`
-  #spec.linker.flags << "-L/Applications/Julia-0.4.5.app/Contents/Resources/julia/lib/julia -Wl,-rpath,/Applications/Julia-0.4.5.app/Contents/Resources/julia/lib/julia -ljulia"
-  spec.linker.flags << `/Applications/Julia-0.4.5.app/Contents/Resources/julia/share/julia/julia-config.jl --ldflags --ldlibs`.gsub!(/\n/,' ')
+  if RUBY_PLATFORM =~ /darwin/i
+    juliaPath = `which julia`
+    if(juliaPath.length>0)
+      juliaPath=Pathname(juliaPath).parent.to_s
+      juliaConfig = juliaPath+"/share/julia/julia-config.jl"
+    else
+      #juliaConfit = "/Applications/Julia-0.4.5.app/Contents/Resources/julia/share/julia/julia-config.jl"
+      juliaApp = `ls /Applications/|grep Julia|sort -r`.split("\n")[0]
+      juliaConfig="/Applications/#{juliaApp}/Contents/Resources/julia/bin/julia /Applications/#{juliaApp}/Contents/Resources/julia/share/julia/julia-config.jl"
+    end
+    spec.cc.flags << `#{juliaConfig} --cflags`.chomp
+    spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
+  else
+    juliaPath=Pathname(`which julia`).parent.to_s
+    juliaConfig = juliaPath+"/share/julia/julia-config.jl"
+    spec.cc.flags << `#{juliaConfig} --cflags`.chomp
+    spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
+  end
 end
