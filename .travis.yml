@@ -5,7 +5,11 @@ compiler:
 before_install:
     - sudo apt-get -qq update
 install:
-    - sudo apt-get -qq install rake bison git gperf
+    - sudo apt-get -qq install rake bison git gperf wget
+    - wget https://julialang.s3.amazonaws.com/bin/linux/x64/0.4/julia-0.4.6-linux-x86_64.tar.gz
+    - sudo tar -C /usr/local -xvf julia-0.4.6-linux-x86_64.tar.gz
+    - sudo ln -s /usr/local/julia-2e358ce975/ /usr/local/julia
+    - export PATH=$PATH:/usr/local/julia/bin
 before_script:
   - cd ../
   - git clone https://github.com/mruby/mruby.git
