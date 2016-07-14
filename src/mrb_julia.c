@@ -65,7 +65,6 @@ mrb_julia_eval(mrb_state *mrb, mrb_value self)
     return mrb_nil_value();
   }
   if (jl_is_byte_string(ret)) {
-    // fprintf(stderr,"jl_is_string == true!\n");
     returnedString = (char *)jl_bytestring_ptr(ret);
     data->str = returnedString;
     // data->len = jl_array_len((jl_array_t*)ret);
@@ -103,7 +102,6 @@ mrb_mruby_julia_gem_init(mrb_state *mrb)
   mrb_define_method(mrb, julia, "eval", mrb_julia_eval, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, julia, "eval", mrb_julia_eval, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, julia, "export_mrb_state", mrb_export_mrb_state, MRB_ARGS_NONE());
-  // mrb_define_class_method(mrb, julia, "hi", mrb_julia_hi, MRB_ARGS_NONE());
   jl_init(JULIA_INIT_DIR);
   DONE;
 }
@@ -111,7 +109,7 @@ mrb_mruby_julia_gem_init(mrb_state *mrb)
 void
 mrb_mruby_julia_gem_final(mrb_state *mrb)
 {
-  fprintf(stderr, "mrb_mruby_julia_gem_final: start\n");
+  /* fprintf(stderr, "mrb_mruby_julia_gem_final: start\n"); */
   jl_atexit_hook(0);
-  fprintf(stderr, "mrb_mruby_julia_gem_final: end\n");
+  /* fprintf(stderr, "mrb_mruby_julia_gem_final: end\n"); */
 }
