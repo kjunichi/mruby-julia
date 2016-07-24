@@ -52,7 +52,6 @@ mrb_julia_eval(mrb_state *mrb, mrb_value self)
   int len;
   jl_value_t *ret;
 
-  mrb_julia_data *data = DATA_PTR(self);
   mrb_get_args(mrb, "s", &str, &len);
   juliaScript = (char *)malloc(sizeof(char) * (len + 1));
   memcpy(juliaScript, str, len);
@@ -62,18 +61,16 @@ mrb_julia_eval(mrb_state *mrb, mrb_value self)
   ret = jl_eval_string(juliaScript);
   if (jl_exception_occurred()) {
     fprintf(stderr, "julia exception occurred!\n");
+    jl_show(jl_stderr_obj(), jl_exception_occurred());
+    jl_printf(jl_stderr_stream(), "\n");
     return mrb_nil_value();
   }
   if (jl_is_byte_string(ret)) {
     returnedString = (char *)jl_bytestring_ptr(ret);
-    data->str = returnedString;
-    // data->len = jl_array_len((jl_array_t*)ret);
-    data->len = strlen(returnedString);
-    // fprintf(stderr,"len = %d\n",data->len);
-    data->str[data->len] = '\0';
+    return mrb_str_new(mrb, returnedString, strlen(returnedString));
   }
 
-  return mrb_str_new(mrb, data->str, data->len);
+  return mrb_nil_value();
 }
 
 static mrb_value
@@ -102,7 +99,7 @@ mrb_mruby_julia_gem_init(mrb_state *mrb)
   mrb_define_method(mrb, julia, "eval", mrb_julia_eval, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, julia, "eval", mrb_julia_eval, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, julia, "export_mrb_state", mrb_export_mrb_state, MRB_ARGS_NONE());
-  jl_init(JULIA_INIT_DIR);
+  jl_init(JULIA_INIT_DIR "/../bin");
   DONE;
 }
 

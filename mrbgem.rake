@@ -9,7 +9,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
       juliaConfig = juliaPath+"/share/julia/julia-config.jl"
     else
       #juliaConfit = "/Applications/Julia-0.4.5.app/Contents/Resources/julia/share/julia/julia-config.jl"
-      juliaApp = `ls /Applications/|grep Julia|sort -r`.split("\n")[0]
+      juliaApp = `ls /Applications/|grep ^Julia|sort -r`.split("\n")[0]
       juliaConfig="/Applications/#{juliaApp}/Contents/Resources/julia/bin/julia /Applications/#{juliaApp}/Contents/Resources/julia/share/julia/julia-config.jl"
     end
     spec.cc.flags << `#{juliaConfig} --cflags`.chomp
