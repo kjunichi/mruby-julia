@@ -65,8 +65,18 @@ mrb_julia_eval(mrb_state *mrb, mrb_value self)
     jl_printf(jl_stderr_stream(), "\n");
     return mrb_nil_value();
   }
-  if (jl_is_byte_string(ret)) {
+#if JULIA_VERSION_MAJOR == 0 && JULIA_VERSION_MINOR < 5
+    if (jl_is_byte_string(ret)) {
+#else
+    if (jl_is_string(ret)) {
+#endif
+
+#if JULIA_VERSION_MAJOR == 0 && JULIA_VERSION_MINOR < 5
     returnedString = (char *)jl_bytestring_ptr(ret);
+#else
+    returnedString = (char *)jl_string_ptr(ret);
+#endif
+    
     return mrb_str_new(mrb, returnedString, strlen(returnedString));
   }
 
@@ -99,7 +109,8 @@ mrb_mruby_julia_gem_init(mrb_state *mrb)
   mrb_define_method(mrb, julia, "eval", mrb_julia_eval, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, julia, "eval", mrb_julia_eval, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, julia, "export_mrb_state", mrb_export_mrb_state, MRB_ARGS_NONE());
-  jl_init(JULIA_INIT_DIR "/../bin");
+  //jl_init(JULIA_INIT_DIR "/../bin");
+  jl_init("C:\\Users\\kjw_j\\AppData\\Local\\Julia-0.5.0\\bin");
   DONE;
 }
 
