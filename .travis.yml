@@ -14,7 +14,7 @@ matrix:
             - bison
             - rake
             - time
-
+            - g++-5
 before_install:
     - mkdir -p $HOME/bin;
         ln -s /usr/bin/gcc-5 $HOME/bin/gcc;
