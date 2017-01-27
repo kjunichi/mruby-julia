@@ -89,7 +89,8 @@ mrb_jl_init()
 #ifndef _WIN32
   jl_init(JULIA_INIT_DIR "/../bin");
 #else
-  jl_init(JULIA_INIT_DIR "\\..\\bin");
+  // fprintf(stderr, "JID = %s\n", JULIA_INIT_DIR);
+  jl_init(JULIA_INIT_DIR "/../bin");
 #endif
 }
 
