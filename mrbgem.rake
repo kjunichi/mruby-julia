@@ -1,7 +1,6 @@
 MRuby::Gem::Specification.new('mruby-julia') do |spec|
   spec.license = 'MIT'
   spec.authors = 'Junichi Kajiwara'
-
   if RUBY_PLATFORM =~ /darwin/i
     juliaPath = `which julia`
     if(juliaPath.length>0)
@@ -14,11 +13,25 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     end
     spec.cc.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
+  elsif ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
+    JULIA_HOME="#{ENV['USERPROFILE']}\\appdata\\local\\julia-0.5.0\\bin"
+    JULIA_INC = "#{JULIA_HOME}\\..\\include\\julia"
+    tmp = JULIA_HOME
+    tmp.gsub!(/\\/, "/")
+    #p tmp
+    spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR#\\\"#{tmp}\\\""
+    #p spec.cxx.flags
+    spec.linker.flags << "/LIBPATH:#{JULIA_HOME}\\..\\lib"
+    spec.linker.libraries << 'libjulia'
   else
+    # Linux
     juliaPath=Pathname(`which julia`).parent.parent.to_s
     juliaConfig = juliaPath+"/share/julia/julia-config.jl"
-    spec.cc.flags << `#{juliaConfig} --cflags`.chomp
+    #spec.cc.flags << `#{juliaConfig} --cflags`.chomp
+    spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
+    spec.linker.flags << "-Wl,-rpath #{juliaPath}/lib/julia"
+    spec.linker.flags << "#{juliaPath}/lib/julia/libstdc++.so.6"
     spec.linker.libraries << 'julia'
   end
 end
