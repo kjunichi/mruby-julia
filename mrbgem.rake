@@ -20,7 +20,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     tmp = JULIA_HOME
     tmp.gsub!(/\\/, "/")
     #p tmp
-    spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR#\\\"#{tmp}\\\""
+    spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR=\\\"#{tmp}\\\""
     #p spec.cxx.flags
     spec.linker.flags << "/LIBPATH:#{JULIA_HOME}\\..\\lib"
     spec.linker.libraries << 'libjulia'
