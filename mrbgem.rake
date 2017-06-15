@@ -28,11 +28,9 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     juliaPath=Pathname(`which julia`).parent.parent.to_s
     juliaConfig = juliaPath+"/share/julia/julia-config.jl"
     #spec.cc.flags << `#{juliaConfig} --cflags`.chomp
-    spec.cxx.flags << '-std=c++11'
     spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
     spec.linker.flags << "-Wl,-rpath #{juliaPath}/lib/julia"
     spec.linker.libraries << 'julia'
-    spec.linker.libraries << 'stdc++'
   end
 end

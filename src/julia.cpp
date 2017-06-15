@@ -34,7 +34,7 @@ mrb_julia_eval(mrb_state *mrb, mrb_value self)
   juliaScript[len] = '\0';
 
   /* run julia commands */
-  ret = (jl_value_t*)jl_eval_string(juliaScript);
+  ret = jl_eval_string(juliaScript);
   if (jl_exception_occurred()) {
     fprintf(stderr, "julia exception occurred!\n");
     jl_show(jl_stderr_obj(), jl_exception_occurred());
