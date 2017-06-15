@@ -37,6 +37,7 @@ before_install:
     - export PATH=$PATH:$HOME/local/julia/bin
     - julia $HOME/local/julia/share/julia/julia-config.jl --cflags
     - export CXXFLAGS="-std=c++11"
+    - ls -l $HOME/local/julia/lib/julia/libjulia.so
 before_script:
   - cd ../
   - git clone https://github.com/mruby/mruby.git
