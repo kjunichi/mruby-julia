@@ -35,6 +35,8 @@ before_install:
     - tar -C $HOME/local -xvf julia-0.4.6-linux-x86_64.tar.gz
     - ln -s $HOME/local/julia-2e358ce975/ $HOME/local/julia
     - export PATH=$PATH:$HOME/local/julia/bin
+    - julia $HOME/local/julia/share/julia/julia-config.jl --cflags
+    - export CXXFLAGS="-std=c++11"
 before_script:
   - cd ../
   - git clone https://github.com/mruby/mruby.git
