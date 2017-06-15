@@ -10,34 +10,25 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - libssl1.0.0
-            - bar
+            - wget
+            - bison
+            - rake
             - time
             - g++-5
-            - gfortran-5
-cache:
-  directories:
-    - $TRAVIS_BUILD_DIR/deps/srccache
-    - $TRAVIS_BUILD_DIR/deps/scratch
-    - $TRAVIS_BUILD_DIR/deps/usr-staging
 before_install:
-    - wget https://julialang.s3.amazonaws.com/bin/linux/x64/0.4/julia-0.4.6-linux-x86_64.tar.gz
-    - mkdir -p $HOME/bin
-    - ln -s /usr/bin/gcc-5 $HOME/bin/gcc
-    - ln -s /usr/bin/g++-5 $HOME/bin/g++
-    - ln -s /usr/bin/gcc-5 $HOME/bin/x86_64-linux-gnu-gcc
-    - ln -s /usr/bin/g++-5 $HOME/bin/x86_64-linux-gnu-g++
-    - export PATH=$HOME/bin:$PATH
-    - which gcc
-    - which g++
-    - gcc --version
-    - mkdir -p $HOME/local
-    - tar -C $HOME/local -xvf julia-0.4.6-linux-x86_64.tar.gz
-    - ln -s $HOME/local/julia-2e358ce975/ $HOME/local/julia
-    - export PATH=$PATH:$HOME/local/julia/bin
-    - julia $HOME/local/julia/share/julia/julia-config.jl --cflags
-    - export CXXFLAGS="-std=c++11"
-    - ls -l $HOME/local/julia/lib/julia/libjulia.so
+    - mkdir -p $HOME/bin;
+        ln -s /usr/bin/gcc-5 $HOME/bin/gcc;
+        ln -s /usr/bin/g++-5 $HOME/bin/g++;
+        ln -s /usr/bin/gfortran-5 $HOME/bin/gfortran;
+        ln -s /usr/bin/gcc-5 $HOME/bin/x86_64-linux-gnu-gcc;
+        ln -s /usr/bin/g++-5 $HOME/bin/x86_64-linux-gnu-g++;
+        gcc --version;
+install:
+    - mkdir -p $HOME/opt;
+    - wget https://julialang.s3.amazonaws.com/bin/linux/x64/0.5/julia-0.5.0-linux-x86_64.tar.gz
+    - tar -C $HOME/opt -xvf julia-0.5.0-linux-x86_64.tar.gz
+    - ln -s $HOME/opt/julia-*/ $HOME/opt/julia
+    - export PATH=$PATH:$HOME/opt/julia/bin
 before_script:
   - cd ../
   - git clone https://github.com/mruby/mruby.git
