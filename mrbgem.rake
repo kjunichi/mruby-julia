@@ -31,7 +31,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     spec.cxx.flags << '-std=c++11'
     spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
-    spec.linker.flags << "-std=c++11 -Wl,-rpath #{juliaPath}/lib/julia"
+    spec.linker.flags << "-lc++ -Wl,-rpath #{juliaPath}/lib/julia"
     spec.linker.libraries << 'julia'
   end
 end
