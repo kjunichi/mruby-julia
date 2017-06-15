@@ -14,6 +14,10 @@ matrix:
         - gfortran-5
 before_install:
     - wget https://julialang.s3.amazonaws.com/bin/linux/x64/0.4/julia-0.4.6-linux-x86_64.tar.gz
+    - mkdir -p $HOME/bin
+    - ln -s /usr/bin/gcc-5 $HOME/bin/gcc
+    - ln -s /usr/bin/g++-5 $HOME/bin/g++
+    - gcc --version
     - mkdir -p $HOME/local
     - tar -C $HOME/local -xvf julia-0.4.6-linux-x86_64.tar.gz
     - ln -s $HOME/local/julia-2e358ce975/ $HOME/local/julia
