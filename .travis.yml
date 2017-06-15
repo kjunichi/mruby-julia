@@ -1,19 +1,25 @@
 language: cpp
 sudo: false
 matrix:
-  - os: linux
-    env: ARCH="x86_64"
-    compiler: "g++-5 -m64"
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - libssl1.0.0
-          - bar
-          - time
-          - g++-5
-          - gfortran-5
+  include:
+    - os: linux
+      env: ARCH="x86_64"
+      compiler: "g++-5 -m64"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - libssl1.0.0
+            - bar
+            - time
+            - g++-5
+            - gfortran-5
+cache:
+  directories:
+    - $TRAVIS_BUILD_DIR/deps/srccache
+    - $TRAVIS_BUILD_DIR/deps/scratch
+    - $TRAVIS_BUILD_DIR/deps/usr-staging
 before_install:
     - wget https://julialang.s3.amazonaws.com/bin/linux/x64/0.4/julia-0.4.6-linux-x86_64.tar.gz
     - mkdir -p $HOME/bin
