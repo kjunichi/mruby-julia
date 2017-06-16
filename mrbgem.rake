@@ -18,11 +18,10 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     p #{ENV['USERPROFILE']}
     JN=`dir /b /ad #{ENV['USERPROFILE']}\\AppData\\Local\\Julia-*`.chomp
     JULIA_HOME="#{ENV['USERPROFILE']}\\appdata\\local\\#{JN}\\bin"
-    p JULIA_HOME
     JULIA_INC = "#{JULIA_HOME}\\..\\include\\julia"
     tmp = JULIA_HOME
     tmp.gsub!(/\\/, "/")
-    p `dir #{JULIA_HOME}\\libjulia.dll`
+    p `dir #{JULIA_HOME}`
     #dummy = `dumpbin /exports #{JULIA_HOME}\\libjulia.dll > #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
     #puts `type #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
     #p tmp
