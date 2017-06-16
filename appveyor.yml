@@ -12,6 +12,7 @@ environment:
   machine: amd64
 install:
   - cinst winflexbison
+  - cinst julia
 init:
 - call "%visualcpp%" %machine%
 - set YACC=win_bison
