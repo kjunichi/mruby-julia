@@ -15,14 +15,14 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
   elsif ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
-    puts #{ENV['USERPROFILE']}
+    p #{ENV['USERPROFILE']}
     JN=`dir /b /ad #{ENV['USERPROFILE']}\\AppData\\Local\\Julia-*`.chomp
     JULIA_HOME="#{ENV['USERPROFILE']}\\appdata\\local\\#{JN}\\bin"
-    puts JULIA_HOME
+    p JULIA_HOME
     JULIA_INC = "#{JULIA_HOME}\\..\\include\\julia"
     tmp = JULIA_HOME
     tmp.gsub!(/\\/, "/")
-    #puts `dir #{tmp}/libjulia.dll`
+    p `dir #{JULIA_HOME}\\libjulia.dll`
     #dummy = `dumpbin /exports #{JULIA_HOME}\\libjulia.dll > #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
     #puts `type #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
     #p tmp
