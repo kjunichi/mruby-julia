@@ -20,4 +20,6 @@ build_script:
  - cd ..
  - git clone https://github.com/mruby/mruby.git
  - cd mruby
- - rake
+ - cd ..
+ - dir
+ - dir C:\Users\appveyor\AppData\Local
