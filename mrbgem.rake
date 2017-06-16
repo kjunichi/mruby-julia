@@ -22,8 +22,9 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     tmp.gsub!(/\\/, "/")
     #p `dir C:\\Users\\appveyor\\AppData\\Local\\Julia-0.5.1\\bin`
     p "#{JULIA_HOME}"
-    #dummy = `dumpbin /exports #{JULIA_HOME}\\libjulia.dll > #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
-    #puts `type #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
+    JLH=JULIA_HOME.gsub(/\//,"\\")
+    `dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
+    p `type #{JLH}\\..\\lib\\libjulia.tmp`
     #p tmp
     spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR=\\\"#{tmp}\\\""
     #p spec.cxx.flags
