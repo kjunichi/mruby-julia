@@ -23,4 +23,4 @@ build_script:
  - cd ..
  - dir
  - dir C:\Users\appveyor\AppData\Local\Julia*
- - ruby -e "puts `dir C:/Users/appveyor/AppData/Local/Julia*`"
+ - ruby -e "puts `dir C:\\Users\\appveyor\\AppData\\Local\\Julia*`"
