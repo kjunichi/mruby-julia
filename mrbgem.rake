@@ -25,7 +25,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     JLH=JULIA_HOME.gsub(/\//,"\\")
     `dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
     dump = `type #{JLH}\\..\\lib\\libjulia.tmp`
-    dump.split("/").each{|line|
+    dump.split("\n").each{|line|
       p line.slice(27)
     }
     
