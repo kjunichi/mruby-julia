@@ -25,10 +25,24 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     JLH=JULIA_HOME.gsub(/\//,"\\")
     `dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
     dump = `type #{JLH}\\..\\lib\\libjulia.tmp`
+    defFile=[]
     dump.split("\n").each{|line|
-      p line.split(" ")[3]
+        items = line.split(" ")
+        funcName = items[3]
+        if funcName!=nil then
+          line = "#{funcName}"
+          if items[4]=='=' then
+            line = line + " = " + items[5]
+          end  
+          defFile.push "#{line}"
+        end
     }
-    
+    defFilePath = "#{JLH}\\..\\lib\\libjulia.def"
+    #p defFilePath
+    defFile = ["EXPORTS",defFile.slice(8,defFile.length)]
+    File.write(defFilePath, defFile.join("\n"))
+    libPath = "#{JLH}\\..\\lib\\libjulia.lib"
+    p `LIB /DEF:#{defFilePath} /MACHINE:X64 /out:#{libPath}`
     #p tmp
     spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR=\\\"#{tmp}\\\""
     #p spec.cxx.flags
