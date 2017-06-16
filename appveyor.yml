@@ -22,4 +22,5 @@ build_script:
  - cd mruby
  - cd ..
  - dir
- - dir C:\Users\appveyor\AppData\Local
+ - dir C:\Users\appveyor\AppData\Local\Julia*
+ - ruby -e "puts `dir C:/Users/appveyor/AppData/Local/Julia*`"
