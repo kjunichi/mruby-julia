@@ -20,7 +20,5 @@ build_script:
  - cd ..
  - git clone https://github.com/mruby/mruby.git
  - cd mruby
- - cd ..
- - dir
- - dir C:\Users\appveyor\AppData\Local\Julia-*
- - ruby -e "JN=`dir /b /ad C:\\Users\\appveyor\\AppData\\Local\\Julia-*`;puts JN"
+ - set MRUBY_CONFIG=../mruby-julia/.travis_build_config.rb
+ - rake 
