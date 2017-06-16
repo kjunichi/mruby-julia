@@ -20,5 +20,5 @@ build_script:
  - cd ..
  - git clone https://github.com/mruby/mruby.git
  - cd mruby
- - set MRUBY_CONFIG=../mruby-julia/appveyor_config.rb
+ - set MRUBY_CONFIG=..\mruby-julia\appveyor_config.rb
  - rake 
