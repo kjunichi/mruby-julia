@@ -22,5 +22,5 @@ build_script:
  - cd mruby
  - cd ..
  - dir
- - dir C:\Users\appveyor\AppData\Local\Julia*
- - ruby -e "puts `dir C:\\Users\\appveyor\\AppData\\Local\\Julia*`"
+ - dir C:\Users\appveyor\AppData\Local\Julia-*
+ - ruby -e "JN=`dir /b /ad C:\\Users\\appveyor\\AppData\\Local\\Julia-*`;puts JN"
