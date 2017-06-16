@@ -15,10 +15,34 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
   elsif ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
-    JULIA_HOME="#{ENV['USERPROFILE']}\\appdata\\local\\julia-0.5.0\\bin"
+    JN=`dir /b /ad #{ENV['USERPROFILE']}\\AppData\\Local\\Julia-*`.chomp
+    JULIA_HOME="#{ENV['USERPROFILE']}\\appdata\\local\\#{JN}\\bin"
     JULIA_INC = "#{JULIA_HOME}\\..\\include\\julia"
     tmp = JULIA_HOME
     tmp.gsub!(/\\/, "/")
+    #p `dir C:\\Users\\appveyor\\AppData\\Local\\Julia-0.5.1\\bin`
+    p "#{JULIA_HOME}"
+    JLH=JULIA_HOME.gsub(/\//,"\\")
+    `dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
+    dump = `type #{JLH}\\..\\lib\\libjulia.tmp`
+    defFile=[]
+    dump.split("\n").each{|line|
+        items = line.split(" ")
+        funcName = items[3]
+        if funcName!=nil then
+          line = "#{funcName}"
+          if items[4]=='=' then
+            line = line + " = " + items[5]
+          end  
+          defFile.push "#{line}"
+        end
+    }
+    defFilePath = "#{JLH}\\..\\lib\\libjulia.def"
+    #p defFilePath
+    defFile = ["EXPORTS",defFile.slice(8,defFile.length)]
+    File.write(defFilePath, defFile.join("\n"))
+    libPath = "#{JLH}\\..\\lib\\libjulia.lib"
+    p `LIB /DEF:#{defFilePath} /MACHINE:X64 /out:#{libPath}`
     #p tmp
     `dumpbin /exports #{JULIA_HOME}\\libjulia.dll > #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
     puts `type #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
