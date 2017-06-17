@@ -13,8 +13,6 @@ environment:
 install:
   - cinst winflexbison
   - cinst julia
-  - echo %USERPROFILE% 
-  - dir %USERPROFILE%\AppData\Local\Julia-0.5.1\bin
 init:
 - call "%visualcpp%" %machine%
 - set YACC=win_bison
