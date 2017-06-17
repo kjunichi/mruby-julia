@@ -16,9 +16,10 @@ install:
 init:
 - call "%visualcpp%" %machine%
 - set YACC=win_bison
+- set PATH=%USERPROFILE%\AppData\Local\Julia-0.5.1\bin;%PATH%
 build_script:
  - cd ..
  - git clone https://github.com/mruby/mruby.git
  - cd mruby
  - set MRUBY_CONFIG=..\mruby-julia\appveyor_config.rb
- - rake 
+ - rake all test

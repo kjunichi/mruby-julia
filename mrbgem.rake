@@ -20,7 +20,6 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     JULIA_INC = "#{JULIA_HOME}\\..\\include\\julia"
     tmp = JULIA_HOME
     tmp.gsub!(/\\/, "/")
-    #p `dir C:\\Users\\appveyor\\AppData\\Local\\Julia-0.5.1\\bin`
     p "#{JULIA_HOME}"
     JLH=JULIA_HOME.gsub(/\//,"\\")
     `dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
@@ -43,9 +42,6 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     File.write(defFilePath, defFile.join("\n"))
     libPath = "#{JLH}\\..\\lib\\libjulia.lib"
     p `LIB /DEF:#{defFilePath} /MACHINE:X64 /out:#{libPath}`
-    #p tmp
-    `dumpbin /exports #{JULIA_HOME}\\libjulia.dll > #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
-    puts `type #{JULIA_HOME}\\..\\lib\\libjulia.tmp`
     spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR=\\\"#{tmp}\\\""
     #p spec.cxx.flags
     spec.linker.flags << "/LIBPATH:#{JULIA_HOME}\\..\\lib"
