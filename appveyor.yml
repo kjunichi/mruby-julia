@@ -13,11 +13,11 @@ environment:
 install:
   - cinst winflexbison
   - cinst julia
-  - where julia
+  - dir %USERPROFILE%\AppData\Loal\Julia-0.5.1\bin
 init:
 - call "%visualcpp%" %machine%
 - set YACC=win_bison
-- set PATH=%HOMEPATH%\AppData\Loal\Julia-0.5.1\bin;%PATH%
+- set PATH=%USERPROFILE%\AppData\Loal\Julia-0.5.1\bin;%PATH%
 build_script:
  - cd ..
  - git clone https://github.com/mruby/mruby.git
