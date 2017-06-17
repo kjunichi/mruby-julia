@@ -22,4 +22,4 @@ build_script:
  - git clone https://github.com/mruby/mruby.git
  - cd mruby
  - set MRUBY_CONFIG=..\mruby-julia\appveyor_config.rb
- - rake all test --trace
+ - rake all test
