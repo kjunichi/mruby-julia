@@ -5,7 +5,6 @@
 **
 ** See Copyright Notice in LICENSE
 */
-// #include <julia.h>
 
 #include "mruby.h"
 #include "mruby/data.h"
@@ -46,9 +45,7 @@ mrb_julia_init(mrb_state *mrb, mrb_value self)
   DATA_TYPE(self) = &mrb_julia_data_type;
   DATA_PTR(self) = NULL;
 
-  // mrb_get_args(mrb, "s", &str, &len);
   data = (mrb_julia_data *)mrb_malloc(mrb, sizeof(mrb_julia_data));
-  // data->str = str;
   data->len = 0;
   DATA_PTR(self) = data;
 
