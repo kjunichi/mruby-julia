@@ -86,11 +86,6 @@ mrb_mruby_julia_gem_final(mrb_state *mrb)
 void
 mrb_jl_init()
 {
-#ifndef _WIN32
-  jl_init(JULIA_INIT_DIR "/../bin");
-#else
-  // fprintf(stderr, "JID = %s\n", JULIA_INIT_DIR);
-  jl_init(JULIA_INIT_DIR "/../bin");
-#endif
+  jl_init();
 }
 
