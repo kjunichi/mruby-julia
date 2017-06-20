@@ -87,6 +87,10 @@ mrb_mruby_julia_gem_final(mrb_state *mrb)
 void
 mrb_jl_init()
 {
+#if JULIA_VERSION_MAJOR == 0 && JULIA_VERSION_MINOR < 6
+  jl_init(JULIA_INIT_DIR "/../bin");
+#else
   jl_init();
+#endif
 }
 
