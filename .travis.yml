@@ -25,8 +25,8 @@ before_install:
         gcc --version;
 install:
     - mkdir -p $HOME/opt;
-    - wget https://julialang.s3.amazonaws.com/bin/linux/x64/0.5/julia-0.5.0-linux-x86_64.tar.gz
-    - tar -C $HOME/opt -xvf julia-0.5.0-linux-x86_64.tar.gz
+    - wget https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.0-linux-x86_64.tar.gz
+    - tar -C $HOME/opt -xvf julia-0.6.0-linux-x86_64.tar.gz
     - ln -s $HOME/opt/julia-*/ $HOME/opt/julia
     - export PATH=$PATH:$HOME/opt/julia/bin
 before_script:
