@@ -35,5 +35,6 @@ before_script:
   - cd mruby
   - cp -fp ../mruby-julia/.travis_build_config.rb build_config.rb
 script:
-  - make all test
+  - $HOME/opt/julia/bin/julia $HOME/opt/julia/share/julia/julia-config.jl --cflags
+  #- make all test
   
