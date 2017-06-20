@@ -37,7 +37,8 @@ mrb_julia_eval(mrb_state *mrb, mrb_value self)
   ret = (jl_value_t*)jl_eval_string(juliaScript);
   if (jl_exception_occurred()) {
     fprintf(stderr, "julia exception occurred!\n");
-    jl_show(jl_stderr_obj(), jl_exception_occurred());
+    //jl_show(jl_stderr_obj(), jl_exception_occurred());
+    jl_call2(jl_get_function(jl_base_module, "show"), jl_stderr_obj(), jl_exception_occurred());
     jl_printf(jl_stderr_stream(), "\n");
     return mrb_nil_value();
   }
