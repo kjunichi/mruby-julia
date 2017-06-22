@@ -15,7 +15,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
   elsif ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
-    JN=`dir /b /ad #{ENV['USERPROFILE']}\\AppData\\Local\\Julia-*`.chomp
+    JN=`dir /b /ad #{ENV['USERPROFILE']}\\AppData\\Local\\Julia-*`.split("\n")[-1]
     JULIA_HOME="#{ENV['USERPROFILE']}\\appdata\\local\\#{JN}\\bin"
     JULIA_INC = "#{JULIA_HOME}\\..\\include\\julia"
     tmp = JULIA_HOME
