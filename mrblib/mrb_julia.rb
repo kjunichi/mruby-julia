@@ -8,8 +8,14 @@ EOS
         Julia.eval(jl)
 
         jl = <<'EOS'
+type MRB　# type < 0.6
+    _::NTuple{16, Cchar} 
+end
+
 function mrb_test()
-  r = ccall( (:mrb_load_string, "libmruby"), Void, (Ptr{Void},Cstring), MRB_MRB_STATE, "puts 'Hello,World!'")
+  
+  r = ccall( (:mrb_load_string, "mruby"), MRB, (Ptr{Void},Cstring), MRB_MRB_STATE, "puts 'Hello,World!'")
+  
 end
 EOS
         Julia.eval(jl)
