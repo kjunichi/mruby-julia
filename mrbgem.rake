@@ -12,7 +12,7 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
       juliaConfig="/Applications/#{juliaApp}/Contents/Resources/julia/bin/julia /Applications/#{juliaApp}/Contents/Resources/julia/share/julia/julia-config.jl"
     end
     spec.cc.flags << `#{juliaConfig} --cflags`.chomp
-    spec.cxx.flags << `#{juliaConfig} --cflags`.chomp
+    spec.cxx.flags << `#{juliaConfig} --cflags`.chomp.gsub!('std=gnu99','std=c++11')
     spec.linker.flags << `#{juliaConfig} --ldflags --ldlibs`.gsub!(/\n/,' ')
   elsif ENV['VisualStudioVersion'] || ENV['VSINSTALLDIR']
     JN=`dir /b /ad #{ENV['USERPROFILE']}\\AppData\\Local\\Julia-*`.split("\n")[-1]
