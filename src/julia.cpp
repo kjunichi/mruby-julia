@@ -1,3 +1,6 @@
+#ifdef _WIN32
+#define JULIA_ENABLE_THREADING
+#endif
 #include <julia.h>
 
 #include "mruby.h"

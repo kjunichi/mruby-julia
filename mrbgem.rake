@@ -22,30 +22,32 @@ MRuby::Gem::Specification.new('mruby-julia') do |spec|
     tmp.gsub!(/\\/, "/")
     p "#{JULIA_HOME}"
     JLH=JULIA_HOME.gsub(/\//,"\\")
-    `dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
-    dump = `type #{JLH}\\..\\lib\\libjulia.tmp`
-    defFile=[]
-    dump.split("\n").each{|line|
-        items = line.split(" ")
-        funcName = items[3]
-        if funcName!=nil then
-          line = "#{funcName}"
-          if items[4]=='=' then
-            line = line + " = " + items[5]
-          end  
-          defFile.push "#{line}"
-        end
-    }
-    defFilePath = "#{JLH}\\..\\lib\\libjulia.def"
-    #p defFilePath
-    defFile = ["EXPORTS",defFile.slice(8,defFile.length)]
-    File.write(defFilePath, defFile.join("\n"))
-    libPath = "#{JLH}\\..\\lib\\libjulia.lib"
-    p `LIB /DEF:#{defFilePath} /MACHINE:X64 /out:#{libPath}`
+    #`dumpbin /exports #{JLH}\\libjulia.dll > #{JLH}\\..\\lib\\libjulia.tmp`
+    #dump = `type #{JLH}\\..\\lib\\libjulia.tmp`
+    #defFile=[]
+    # dump.split("\n").each{|line|
+    #     items = line.split(" ")
+    #     funcName = items[3]
+    #     if funcName!=nil then
+    #       line = "#{funcName}"
+    #       if items[4]=='=' then
+    #         line = line + " = " + items[5]
+    #       end  
+    #       defFile.push "#{line}"
+    #     end
+    # }
+    # defFilePath = "#{JLH}\\..\\lib\\libjulia.def"
+    # #p defFilePath
+    # defFile = ["EXPORTS",defFile.slice(8,defFile.length)]
+    # File.write(defFilePath, defFile.join("\n"))
+    # libPath = "#{JLH}\\..\\lib\\libjulia.lib"
+    # p `LIB /DEF:#{defFilePath} /MACHINE:X64 /out:#{libPath}`
     spec.cxx.flags << "/I #{JULIA_INC} /DJULIA_INIT_DIR=\\\"#{tmp}\\\""
-    #p spec.cxx.flags
     spec.linker.flags << "/LIBPATH:#{JULIA_HOME}\\..\\lib"
-    spec.linker.libraries << 'libjulia'
+    p `copy #{JLH}\\..\\lib\\libjulia.dll.a #{JLH}\\..\\lib\\libjulia.dll.lib`
+    p `copy #{JLH}\\..\\lib\\libopenlibm.dll.a #{JLH}\\..\\lib\\libopenlibm.dll.lib`
+    spec.linker.libraries << 'libjulia.dll'
+    spec.linker.libraries << 'libopenlibm.dll'
   else
     # Linux
     juliaPath=Pathname(`which julia`).parent.parent.to_s
